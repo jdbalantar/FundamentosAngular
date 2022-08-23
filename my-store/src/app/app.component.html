@@ -1,12 +1,119 @@
-<h1>Directiva *ngIf</h1>
-<input type="text" required [(ngModel)]="person.name"/>
-<p *ngIf="person.name === 'david'">Soy David</p>
-<p *ngIf="person.name === 'julian'">Soy Julián</p>
+<h1>Formulario</h1>
+<form (ngSubmit)="onRegister()" #myForm="ngForm">
+  <div class="input-group">
+    <label for="name">Nombre</label>
+    <input required type="text" id="name" name="name" [(ngModel)]="register.name">
+    <p>Mensajes de error</p>
+  </div>
+  <div class="input-group">
+    <label for="email">Email</label>
+    <input name="email" required type="email" id="email" [(ngModel)]="register.email">
+    <p>Mensajes de error</p>
+  </div>
+  <div class="input-group">
+    <label for="password">Contraseña</label>
+    <input required type="password" id="password" name="password" [(ngModel)]="register.password">
+    <p>Mensajes de error</p>
+  </div>
+  <button type="submit" [disabled]="myForm.invalid">Registrar</button>
+</form>
 
+<hr>
+
+<h1>NgClass & NgStyle</h1>
+<input type="text" required #nameInput4="ngModel" [(ngModel)]="person.name"/>
+<hr class="line-error"
+    [ngClass]="{
+      'valid': nameInput4.valid,
+      'invalid': nameInput4.invalid
+    }"
+/>
+<p class="message-error" [class.invalid]="nameInput4.invalid">El campo es requerido</p>
+<div>
+  <div>
+    <input type="number" required [(ngModel)]="box.width"/>
+    <input type="number" required [(ngModel)]="box.height"/>
+    <input type="color" required [(ngModel)]="box.background"/>
+  </div>
+  <div>
+    <div [ngStyle]="{
+    'width.px': box.width,
+    'height.px': box.height,
+    'background-color': box.background,
+    'display': 'block'
+    }">
+
+    </div>
+  </div>
+</div>
+
+
+<hr/>
+
+
+
+<h1>Class & Style</h1>
+<input type="text" required #nameInput2="ngModel" [(ngModel)]="person.name"/>
+<p class="message-error" [class.invalid]="nameInput2.invalid">El campo es requerido</p>
+<label>Nombre</label>
+<input type="text" required #nameInput3="ngModel" [(ngModel)]="person.name"/>
+<p [style.font-style]="nameInput3.invalid ? 'italic' : 'normal'">Texto texto texto</p>
+<div class="styles">
+  <div>
+    <input type="number" required [(ngModel)]="widthImg"/>
+  </div>
+  <div>
+    <img [style.width.%]="widthImg" [src]="person.avatar" alt="image">
+  </div>
+</div>
+<hr>
+
+
+<h1>*ngSwitch</h1>
+<input type="text" required [(ngModel)]="person.name"/>
+<div [ngSwitch]="person.name">
+  <p *ngSwitchCase="'david'">La persona es David</p>
+  <p *ngSwitchCase="'julian'">La persona es Julián</p>
+  <p *ngSwitchDefault>No hace match</p>
+</div>
+<hr>
+
+<h1>*ngFor Objs</h1>
+<div class="products--grid">
+  <div *ngFor="let product of products">
+    <img [src]="product.image" alt="image">
+    <h2>{{product.price}}</h2>
+    <p>{{product.name}}</p>
+  </div>
+</div>
 
 <hr>
 
 
+<h1>*ngFor</h1>
+<button (click)="addName()">Add name</button>
+<input type="text" required [(ngModel)]="newName"/>
+<ul>
+  <li *ngIf="names.length === 0">No hay nombres</li>
+  <li *ngFor="let name of names; index as i">
+    {{i}} - {{name}} -
+    <button (click)="deleteName(i)">Delete</button>
+
+  </li>
+</ul>
+
+<hr>
+
+
+<h1>Directiva *ngIf</h1>
+<input type="text" required [(ngModel)]="person.name"/>
+<p *ngIf="person.name === 'david'">Soy David</p>
+<p *ngIf="person.name === 'julian' && person.age === 18;  else myBlock">Soy Julián</p>
+<ng-template #myBlock>
+  <p>Bloque de else</p>
+</ng-template>
+
+<hr>
 
 <h1>NgModel</h1>
 <p>Nombre: {{person.name}}</p>
@@ -42,5 +149,5 @@
 <h2>{{"Hola mundo".repeat(5)}}</h2>
 <p>3 + 3 = {{ 3 + 3}}</p>
 <h3> Hola, soy {{person.name}} y tengo {{ age}} años</h3>
-<img src={{img}} alt="image">
+<img width="200" src={{img}} alt="image">
 
